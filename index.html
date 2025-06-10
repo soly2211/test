@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>عجلة الحظ - اربح الآن!</title>
   <style>
     body {
@@ -14,23 +15,27 @@
     }
 
     h1 {
-      margin-top: 30px;
+      margin-top: 25px;
       color: #2c3e50;
+      font-size: 24px;
+      padding: 0 10px;
     }
 
     #wheelContainer {
       position: relative;
       margin: 30px auto;
-      width: 340px;
-      height: 340px;
+      width: 90vw;
+      max-width: 380px;
+      height: 90vw;
+      max-height: 380px;
     }
 
     #wheel {
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      border: 8px solid #3498db;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      border: 6px solid #3498db;
+      box-shadow: 0 0 10px rgba(0,0,0,0.15);
       transition: transform 5s ease-out;
     }
 
@@ -41,18 +46,19 @@
       border-right: 20px solid transparent;
       border-bottom: 30px solid #e74c3c;
       position: absolute;
-      top: -30px;
+      top: -25px;
       left: 50%;
       transform: translateX(-50%);
     }
 
     #spinBtn {
-      padding: 15px 30px;
-      font-size: 18px;
+      margin-top: 20px;
+      padding: 15px 40px;
+      font-size: 20px;
       background-color: #27ae60;
       color: white;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
     }
 
@@ -61,8 +67,8 @@
     }
 
     #result {
-      margin-top: 20px;
-      font-size: 24px;
+      margin-top: 25px;
+      font-size: 22px;
       font-weight: bold;
       color: #2980b9;
       min-height: 30px;
@@ -75,7 +81,7 @@
 
   <div id="wheelContainer">
     <div id="pointer"></div>
-    <canvas id="wheel" width="340" height="340"></canvas>
+    <canvas id="wheel" width="380" height="380"></canvas>
   </div>
 
   <button id="spinBtn">اضغط للّف 🔄</button>
@@ -110,21 +116,19 @@
         const start = i * arc;
         const end = start + arc;
 
-        // رسم القطعة
         ctx.beginPath();
         ctx.fillStyle = colors[i];
-        ctx.moveTo(170, 170);
-        ctx.arc(170, 170, 170, start, end);
+        ctx.moveTo(190, 190);
+        ctx.arc(190, 190, 190, start, end);
         ctx.fill();
 
-        // كتابة النص
         ctx.save();
-        ctx.translate(170, 170);
+        ctx.translate(190, 190);
         ctx.rotate(start + arc / 2);
         ctx.textAlign = "center";
         ctx.fillStyle = "#2c3e50";
-        ctx.font = "bold 18px Cairo";
-        ctx.fillText(prizes[i], 100, 10);
+        ctx.font = "bold 20px Cairo";
+        ctx.fillText(prizes[i], 110, 10);
         ctx.restore();
       }
     }
